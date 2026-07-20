@@ -1,8 +1,8 @@
 import React from 'react'
 import {Routes, Route } from 'react-router'
-import Home from '../Components/Home'
-import Shop from '../Components/Shop'
-import About from '../Components/About'
+import Home from '../pages/Home'
+import Shop from '../pages/Shop'
+import About from '../pages/About'
 import CreateId from '../pages/CreateId'
 import Login from '../pages/Login'
 
@@ -11,7 +11,7 @@ const AppRoutes = () => {
   return (
     <div>
       <Routes>
-        <Route path="/login" element={<Login/>} />
+        <Route path="/" element={<Login/>} />
         <Route path="/register" element={<CreateId />} />
         <Route path='/Home' element={<Home/>}/>
         <Route path='/products' element={<Shop/>}/>

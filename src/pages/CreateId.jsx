@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { User, Mail, Lock, Eye, ArrowRight, Zap } from "lucide-react";
-import {  useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const CreateId = () => {
- 
   let navigate = useNavigate();
-
+  const [userExists, setuserExists] = useState();
   let {
     register,
     handleSubmit,
@@ -18,9 +17,18 @@ const CreateId = () => {
   const password = watch("password");
 
   let submit = (data) => {
+    const existingUser = JSON.parse(localStorage.getItem("user"));
+
+    if (
+      existingUser.password === data.password ||
+      existingUser.email === data.email
+    ) {
+      setuserExists("User already exists");
+      return;
+    }
+    setuserExists("");
+    localStorage.setItem("user", JSON.stringify(data));
     navigate("/Home");
-    console.log(data);
-    
   };
 
   return (
@@ -49,6 +57,29 @@ const CreateId = () => {
               Join SkyMart and start shopping
             </p>
           </div>
+
+          {userExists && (
+            <div className="flex items-center gap-3 w-full p-3 rounded-lg border border-red-500 bg-red-500/10 text-red-400">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5 flex-shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v3m0 4h.01M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z"
+                />
+              </svg>
+
+              <p className="text-sm font-medium">
+                User already exists. Please use a different email.
+              </p>
+            </div>
+          )}
 
           <div>
             <div className="flex items-center gap-3 bg-zinc-900 border border-zinc-800 rounded-2xl px-4 md:px-5 py-3">
@@ -154,7 +185,12 @@ const CreateId = () => {
 
           <p className="text-center text-sm md:text-base text-zinc-500">
             Already have an account?{" "}
-            <span className="text-lime-400 font-semibold cursor-pointer">
+            <span
+              className="text-lime-400 font-semibold cursor-pointer"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
               Sign In
             </span>
           </p>
