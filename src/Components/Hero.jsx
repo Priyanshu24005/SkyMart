@@ -6,7 +6,7 @@ const Hero = () => {
   let navigate = useNavigate();
   return (
     <div>
-      <div className="relative w-full rounded-3xl border border-white/10 bg-black p-6 sm:p-10 overflow-hidden">
+      <div className="relative w-full rounded-3xl border border-white bg-black p-6 sm:p-10 overflow-hidden">
      
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
         {/* Left content */}

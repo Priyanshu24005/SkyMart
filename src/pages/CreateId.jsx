@@ -20,7 +20,6 @@ const CreateId = () => {
     const existingUser = JSON.parse(localStorage.getItem("user"));
 
     if (
-      existingUser.password === data.password ||
       existingUser.email === data.email
     ) {
       setuserExists("User already exists");

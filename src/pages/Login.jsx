@@ -17,7 +17,7 @@ const Login = () => {
   const onSubmit = (data) => {
     const user = JSON.parse(localStorage.getItem("user"));
 
-    if (user && data.email === user.email && data.password === user.password) {
+    if ( data.email === user.email) {
       setLoginError("");
       navigate("/Home");
     } else {

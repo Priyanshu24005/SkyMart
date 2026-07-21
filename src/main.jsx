@@ -4,9 +4,12 @@ import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router";
 import "@fontsource/poppins";
+import { Provider } from "./Context/AppContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
+  <Provider>
     <App />
+    </Provider>
   </BrowserRouter>,
 );

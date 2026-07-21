@@ -13,6 +13,7 @@ const Navbar = () => {
     navigate("/register");
   };
 
+
   return (
     <nav className="w-full bg-black border-b border-zinc-900 px-4 sm:px-6 lg:px-10 py-4">
       <div className="flex items-center justify-between">
@@ -67,7 +68,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-3">
           <div className="flex items-center gap-3 px-3 lg:px-4 py-2 rounded-2xl border border-zinc-800 bg-zinc-950">
             <div className="h-8 w-8 lg:h-10 lg:w-10 rounded-xl bg-lime-400 flex items-center justify-center text-black font-bold">
-              A
+               {user?.name?.[0]?.toUpperCase()}
             </div>
 
             <p className="text-white text-sm lg:text-base">{user.name}</p>
@@ -136,7 +137,7 @@ const Navbar = () => {
           <div className="p-5 border-b border-white/10">
             <div className="flex items-center gap-3">
               <div className="h-12 w-12 rounded-xl bg-lime-400 flex items-center justify-center text-black font-bold">
-                {user?.name?.charAt(0).toUpperCase()}
+                {user?.name?.[0]?.toUpperCase() || "P"}
               </div>
 
               <div>

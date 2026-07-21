@@ -43,7 +43,7 @@ const Cards = () => {
         {stats.map((item, index) => (
           <div
             key={index}
-            className="bg-black border border-zinc-700 rounded-[30px] p-6 flex items-center gap-5 transition-all duration-300 hover:border-lime-400 hover:shadow-[0_0_25px_rgba(200,244,0,0.08)]"
+            className="bg-black border border-white rounded-[30px] p-6 flex items-center gap-5 transition-all duration-300 hover:border-lime-400 hover:shadow-[0_0_25px_rgba(200,244,0,0.08)]"
           >
             <div
               className={`w-16 h-16 rounded-2xl flex items-center justify-center ${item.iconBg} ${item.iconColor}`}
