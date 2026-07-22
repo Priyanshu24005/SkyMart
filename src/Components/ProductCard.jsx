@@ -1,7 +1,9 @@
 import React from "react";
 import { ShoppingCart, Star } from "lucide-react";
+import { useNavigate } from "react-router";
 
 const ProductCard = ({ product }) => {
+  let Navigate = useNavigate();
   return (
     <div className="bg-[#111111] rounded-2xl overflow-hidden border border-gray-800 hover:border-lime-400 duration-300">
       {/* Image Section */}
@@ -11,9 +13,10 @@ const ProductCard = ({ product }) => {
         </span>
 
         <img
-          src={product.image}
+          src={product.thumbnail}
           alt={product.title}
           className="h-36 object-contain"
+          onClick={()=>Navigate(`/detail/${product.id}`)}
         />
       </div>
 
@@ -34,7 +37,7 @@ const ProductCard = ({ product }) => {
               key={item}
               size={13}
               className={
-                item <= Math.round(product.rating.rate)
+                item <= Math.round(product.rating)
                   ? "fill-yellow-400 text-yellow-400"
                   : "text-gray-600"
               }
@@ -42,7 +45,7 @@ const ProductCard = ({ product }) => {
           ))}
 
           <span className="text-gray-500 text-xs ml-1">
-            ({product.rating.count})
+           ({product.reviews.length} reviews)
           </span>
         </div>
 

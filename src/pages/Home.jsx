@@ -4,6 +4,7 @@ import Hero from "../Components/Hero";
 import Cards from "../Components/Cards";
 import Categoriy from "../Components/Category";
 import Footer from "../Components/Footer";
+import FeaturedProduct from "../Components/FeaturedProduct";
 
 let Home = () => {
   return (
@@ -14,6 +15,7 @@ let Home = () => {
         <Hero />
         <Cards/>
         <Categoriy/>
+        <FeaturedProduct/>
         <Footer/>
       </div>
     </div>

@@ -1,25 +1,31 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 const Category = () => {
   const categories = [
-    { icon: "💻", name: "Electronics", items: 17 },
-    { icon: "📦", name: "Clothing", items: 2 },
-    { icon: "📦", name: "Furniture", items: 3 },
-    { icon: "📦", name: "Home", items: 14 },
-    { icon: "📦", name: "Sports", items: 8 },
-    { icon: "📦", name: "Accessories", items: 6 },
+    { name: "Beauty", slug: "beauty", icon: "💄" },
+    { name: "Fragrances", slug: "fragrances", icon: "🌸" },
+    { name: "Furniture", slug: "furniture", icon: "🛋️" },
+    { name: "Groceries", slug: "groceries", icon: "🛒" },
+    { name: "Home Decoration", slug: "home-decoration", icon: "🏠" },
+    { name: "Kitchen Accessories", slug: "kitchen-accessories", icon: "🍽️" },
   ];
-  return (
-    <section className="px-6 py-8 bg-black min-h-screen">
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="text-4xl font-bold text-white">Shop by Category</h2>
 
-        <button className="text-lime-400 font-medium flex items-center gap-2 hover:gap-3 transition-all">
+  let Navigate = useNavigate();
+  return (
+    <section className="px-4 py-4 bg-black mb-10">
+      <div className="flex items-center justify-between">
+        <h2 className="text-4xl font-bold text-white mb-6">Shop by Category</h2>
+
+        <button
+          className="text-lime-400 font-medium flex items-center gap-2 hover:gap-3 transition-all"
+          onClick={() => Navigate("/products")}
+        >
           View All →
         </button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {categories.map((category) => (
           <div
             key={category.name}
