@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { Mail, Lock, Eye, ArrowRight, Zap } from "lucide-react";
+import { MyStore } from "../Context/AppContext";
+import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
-  const [loginError, setLoginError] = useState("");
+  const { loggedInUsers, setLoggedInUsers } = useContext(MyStore);
+  let registeredUser = JSON.parse(localStorage.getItem("registeredUser"));
+
+  console.log(loggedInUsers);
+  
 
   const {
     register,
@@ -15,13 +21,16 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    if ( data.email === user.email) {
-      setLoginError("");
-      navigate("/Home");
-    } else {
-      setLoginError("Invalid Credentials");
+    let user = registeredUser.find(
+      (val) => val.email === data.email && val.password === data.password,
+    );
+    if(user){
+    navigate("/main")
+    toast.success("logged In Successfully")
+    localStorage.setItem('LoggedInUser',JSON.stringify(user));
+    setLoggedInUsers(user);
+    }else{
+      toast.error("user not found")
     }
   };
 
@@ -86,12 +95,6 @@ const Login = () => {
             <p className="text-zinc-500 text-sm mt-2 mb-6">
               Enter your credentials to continue
             </p>
-
-            {loginError && (
-              <div className="bg-red-500 text-white px-4 py-3 rounded-xl text-sm font-medium mb-4">
-                {loginError}
-              </div>
-            )}
 
             {/* Email */}
             <div className="mb-4">

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { User, Mail, Lock, Eye, ArrowRight, Zap } from "lucide-react";
 import { useNavigate } from "react-router";
+import { MyStore } from "../Context/AppContext";
+import { ToastContainer, toast } from "react-toastify";
 
 const CreateId = () => {
   let navigate = useNavigate();
-  const [userExists, setuserExists] = useState();
+  const { registeredUsser, setRegisteredUser } = useContext(MyStore);
+ 
   let {
     register,
     handleSubmit,
@@ -16,18 +19,24 @@ const CreateId = () => {
 
   const password = watch("password");
 
-  let submit = (data) => {
-    const existingUser = JSON.parse(localStorage.getItem("user"));
+  console.log(registeredUsser);
 
-    if (
-      existingUser.email === data.email
-    ) {
-      setuserExists("User already exists");
-      return;
-    }
-    setuserExists("");
-    localStorage.setItem("user", JSON.stringify(data));
-    navigate("/Home");
+  let submit = (data) => {
+    let arr = [...registeredUsser, data];
+
+    setRegisteredUser(arr);
+    localStorage.setItem("registeredUser", JSON.stringify(arr));
+    localStorage.setItem("LoggedInUser", JSON.stringify(data));
+    toast.success("Account Created")
+    navigate("/main");
+
+
+  };
+
+  const onError = (errors) => {
+    Object.values(errors).forEach((error) => {
+      toast.error(error.message);
+    });
   };
 
   return (
@@ -44,7 +53,7 @@ const CreateId = () => {
 
       <div className="w-full max-w-md ">
         <form
-          onSubmit={handleSubmit(submit)}
+          onSubmit={handleSubmit(submit, onError)}
           className="bg-zinc-950 border border-zinc-800 rounded-4xl p-5 md:p-7 flex flex-col gap-4 "
         >
           <div>
@@ -57,7 +66,7 @@ const CreateId = () => {
             </p>
           </div>
 
-          {userExists && (
+          {/* {userExists && (
             <div className="flex items-center gap-3 w-full p-3 rounded-lg border border-red-500 bg-red-500/10 text-red-400">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +87,7 @@ const CreateId = () => {
                 User already exists. Please use a different email.
               </p>
             </div>
-          )}
+          )} */}
 
           <div>
             <div className="flex items-center gap-3 bg-zinc-900 border border-zinc-800 rounded-2xl px-4 md:px-5 py-3">
@@ -93,10 +102,6 @@ const CreateId = () => {
                 className="bg-transparent outline-none text-white w-full"
               />
             </div>
-
-            {errors.name && (
-              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-            )}
           </div>
 
           <div>
@@ -116,12 +121,6 @@ const CreateId = () => {
                 className="bg-transparent outline-none text-white w-full"
               />
             </div>
-
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.email.message}
-              </p>
-            )}
           </div>
 
           <div>
@@ -143,12 +142,6 @@ const CreateId = () => {
 
               <Eye size={20} className="text-blue-500 cursor-pointer" />
             </div>
-
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.password.message}
-              </p>
-            )}
           </div>
 
           <div>
@@ -166,12 +159,6 @@ const CreateId = () => {
                 className="bg-transparent outline-none text-white w-full"
               />
             </div>
-
-            {errors.confirmPassword && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.confirmPassword.message}
-              </p>
-            )}
           </div>
 
           <button

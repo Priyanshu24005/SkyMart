@@ -4,7 +4,7 @@ import TopRated from './TopRated'
 
 const FeaturedProduct = () => {
   return (
-    <div className='flex gap-5 flex-wrap sm:'>
+    <div className='flex gap-5 flex-wrap'>
       <TopRated/>
       <NewArrivals/>
     </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from "react-router";
 
 const Hero = () => {
-     let user = JSON.parse(localStorage.getItem("user"))
+     let LoggedInUser = JSON.parse(localStorage.getItem("LoggedInUser"))
   let navigate = useNavigate();
   return (
     <div>
@@ -18,7 +18,7 @@ const Hero = () => {
           <h1 className="mt-3 text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight">
             Welcome back,
             <br />
-            <span className="text-lime-400">{user.name}!</span>
+            <span className="text-lime-400">{LoggedInUser?.name}!</span>
           </h1>
 
           <p className="mt-4 text-gray-400 text-base sm:text-lg">

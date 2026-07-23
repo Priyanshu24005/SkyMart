@@ -9,7 +9,6 @@ import CTA from "../Components/CTA";
 const About= () => {
   return (
     <section className="bg-[#0E0E0E] min-h-screen text-white ">
-      <Navbar/>
       <div className="max-w-6xl mx-auto space-y-14 px-5 py-14">
         <AboutHero />
         <AboutStats />
