@@ -1,8 +1,9 @@
 import React from "react";
 import { ArrowRight, ShoppingBag } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const CTA = () => {
+  let navigate =useNavigate()
   return (
     <section className="mt-10">
       <div className="bg-linear-to-r from-lime-400 to-lime-500 rounded-3xl p-8 md:p-14 text-center text-black">
@@ -22,13 +23,13 @@ const CTA = () => {
 
         <div className="flex flex-col sm:flex-row justify-center gap-5 mt-10">
 
-          <Link
-            to="/products"
+          <button
+            onClick={()=>navigate("/main/products")}
             className="bg-black text-white px-8 py-4 rounded-xl font-semibold hover:bg-neutral-900 transition flex items-center justify-center gap-2"
           >
             Browse Products
             <ArrowRight size={18} />
-          </Link>
+          </button>
 
         </div>
       </div>
