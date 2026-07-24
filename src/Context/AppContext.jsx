@@ -1,37 +1,39 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const MyStore = createContext();
 
 export const Provider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
   const [registeredUsser, setRegisteredUser] = useState(
-    () => JSON.parse(localStorage.getItem("registeredUser")) || [],
+    () => JSON.parse(localStorage.getItem("registeredUser")) || []
   );
+
   const [loggedInUsers, setLoggedInUsers] = useState(
-    () => JSON.parse(localStorage.getItem("LoggedInUser")) || {},
+    () => JSON.parse(localStorage.getItem("LoggedInUser")) || {}
   );
 
-  const [addedProduct, setAddedProduct] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(
+    () => JSON.parse(localStorage.getItem("cartItem")) || []
+  );
+
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
-   let addTocart = (id) => {
-    let AddedProduct = filteredProducts.find((val) => val.id === id);
-    setAddedProduct((prev) => [...prev, AddedProduct]);
-    setCart((prev) => [...prev, AddedProduct]);
-    setIsCartOpen(true);
-  };
-
-  let getProducts = async () => {
+  const getProducts = async () => {
     try {
-      let res = await axios.get("https://dummyjson.com/products?limit=50");
+      const res = await axios.get(
+        "https://dummyjson.com/products?limit=50"
+      );
       setProducts(res.data.products);
     } catch (error) {
-      console.log("Error", error);
+      console.log(error);
     }
   };
+
 
   useEffect(() => {
     getProducts();
@@ -41,7 +43,28 @@ export const Provider = ({ children }) => {
     setFilteredProducts(products);
   }, [products]);
 
-  console.log(filteredProducts);
+  useEffect(() => {
+    localStorage.setItem("cartItem", JSON.stringify(cart));
+  }, [cart]);
+
+  const addTocart = (id) => {
+    const product = filteredProducts.find((item) => item.id === id);
+
+    if (!product) return;
+
+    const alreadyExists = cart.find((item) => item.id === id);
+
+    if (alreadyExists) {
+      setIsCartOpen(true);
+      return;
+    }
+
+    setCart([...cart, { ...product, quauntity: 1 }]);
+    setIsCartOpen(true);
+    toast.success("Item Added To Cart",{
+      theme:"dark"
+    })
+  };
 
   return (
     <MyStore.Provider
@@ -54,13 +77,13 @@ export const Provider = ({ children }) => {
         setRegisteredUser,
         loggedInUsers,
         setLoggedInUsers,
-        addedProduct,
-        setAddedProduct,
         cart,
         setCart,
         isCartOpen,
         setIsCartOpen,
-        addTocart
+        addTocart,
+        selectedCategory,
+        setSelectedCategory,
       }}
     >
       {children}

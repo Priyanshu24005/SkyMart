@@ -1,19 +1,32 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Search, ChevronDown, X } from "lucide-react";
 import { MyStore } from "../Context/AppContext";
 
 const Input = () => {
-  const { products, setFilteredProducts } = useContext(MyStore);
+  const {
+    products,
+    setFilteredProducts,
+    selectedCategory,
+    setSelectedCategory,
+  } = useContext(MyStore);
 
   const [clearToggle, setClearToggle] = useState(false);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all categories");
   const [sort, setSort] = useState("featured");
 
+useEffect(() => {
+  if (selectedCategory) {
+    setCategory(selectedCategory);
+    handleFilter(search, selectedCategory, sort);
+  }
+}, [selectedCategory]);
+
   const handleFilter = (
     searchValue = search,
     categoryValue = category,
     sortValue = sort,
+    selectedCategoryValue = selectedCategory,
   ) => {
     setClearToggle(true);
 
@@ -38,11 +51,11 @@ const Input = () => {
     }
 
     if (sortValue === "Top Rated") {
-      filtered.sort((a, b) => b.rating.rate - a.rating.rate);
+      filtered.sort((a, b) => b.rating - a.rating);
     }
 
     if (sortValue === "Lowest Rated") {
-      filtered.sort((a, b) => a.rating.rate - b.rating.rate);
+      filtered.sort((a, b) => a.rating - b.rating);
     }
 
     setFilteredProducts([...filtered]);

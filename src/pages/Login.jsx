@@ -26,11 +26,15 @@ const Login = () => {
     );
     if(user){
     navigate("/main")
-    toast.success("logged In Successfully")
+    toast.success("logged In Successfully",{
+      theme : "dark"
+    })
     localStorage.setItem('LoggedInUser',JSON.stringify(user));
     setLoggedInUsers(user);
     }else{
-      toast.error("user not found")
+      toast.error("user not found",{
+      theme : "dark"
+    })
     }
   };
 

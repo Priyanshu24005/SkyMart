@@ -7,7 +7,11 @@ import { ToastContainer, toast } from "react-toastify";
 
 const CreateId = () => {
   let navigate = useNavigate();
-  const { registeredUsser, setRegisteredUser } = useContext(MyStore);
+  const { registeredUsser, setRegisteredUser, setLoggedInUsers} = useContext(MyStore);
+  const [userExists,setUserExists] = useState(false);
+
+  console.log(userExists);
+  
  
   let {
     register,
@@ -19,15 +23,24 @@ const CreateId = () => {
 
   const password = watch("password");
 
-  console.log(registeredUsser);
+  
 
   let submit = (data) => {
+      let user = registeredUsser.find((val) => val.email === data.email)
+      if(user){
+      setUserExists(true);
+      return;
+      }
     let arr = [...registeredUsser, data];
-
     setRegisteredUser(arr);
     localStorage.setItem("registeredUser", JSON.stringify(arr));
     localStorage.setItem("LoggedInUser", JSON.stringify(data));
-    toast.success("Account Created")
+    setLoggedInUsers(data);
+
+   
+    toast.success("Account Created",{
+      theme:"dark"
+    })
     navigate("/main");
 
 
@@ -66,7 +79,7 @@ const CreateId = () => {
             </p>
           </div>
 
-          {/* {userExists && (
+          {userExists && (
             <div className="flex items-center gap-3 w-full p-3 rounded-lg border border-red-500 bg-red-500/10 text-red-400">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +100,7 @@ const CreateId = () => {
                 User already exists. Please use a different email.
               </p>
             </div>
-          )} */}
+          )}
 
           <div>
             <div className="flex items-center gap-3 bg-zinc-900 border border-zinc-800 rounded-2xl px-4 md:px-5 py-3">

@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MyStore } from "../Context/AppContext";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import axios from "axios";
+import ProductCard from "./ProductCard";
 
 const DetailedProduct = () => {
   let { id } = useParams();
   let [singleProduct, setSingleProduct] = useState({});
-  let { addTocart} = useContext(MyStore);
+  let { filteredProducts, addTocart, cart } = useContext(MyStore);
+  let Navigate = useNavigate();
+
+  const isAdded = cart.some((item) => item.id === singleProduct.id);
 
   let getSingleProduct = async () => {
     try {
@@ -19,7 +23,11 @@ const DetailedProduct = () => {
 
   useEffect(() => {
     getSingleProduct();
-  }, []);
+  }, [id]);
+
+  const nextProduct = () => {
+    navigate(`/main/products/${Number(id) + 1}`);
+  };
 
   return (
     <div>
@@ -69,15 +77,30 @@ const DetailedProduct = () => {
               </p>
 
               {/* Buttons */}
-              <div className="flex gap-4 mt-10">
-                <button className="flex-1 bg-lime-400 text-black rounded-2xl py-5 font-semibold text-xl hover:bg-lime-300 duration-300" onClick={()=>addtoCart(singleProduct.id)}>
-                  🛒 Add to Cart
-                </button>
+              {isAdded ? (
+                <div className="flex gap-4 mt-10">
+                  <button className="flex-1 bg-lime-400 text-black rounded-2xl py-5 font-semibold text-xl hover:bg-lime-300 duration-300">
+                    🛒 Added to Cart
+                  </button>
 
-                <button className="w-16 rounded-2xl border border-gray-700 text-2xl">
-                  ♡
-                </button>
-              </div>
+                  <button className="w-16 rounded-2xl border border-gray-700 text-2xl">
+                    ♡
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-4 mt-10">
+                  <button
+                    className="flex-1 bg-lime-400 text-black rounded-2xl py-5 font-semibold text-xl hover:bg-lime-300 duration-300"
+                    onClick={() => addTocart(singleProduct.id)}
+                  >
+                    🛒 Add to Cart
+                  </button>
+
+                  <button className="w-16 rounded-2xl border border-gray-700 text-2xl">
+                    ♡
+                  </button>
+                </div>
+              )}
 
               {/* Features */}
               <div className="grid grid-cols-3 gap-4 mt-8">
@@ -102,18 +125,35 @@ const DetailedProduct = () => {
 
               {/* Navigation */}
               <div className="grid grid-cols-2 gap-4 mt-8">
-                <button className="py-4 rounded-2xl bg-zinc-800 hover:bg-zinc-700 duration-300">
+                <button
+                  className="py-4 rounded-2xl bg-zinc-800 hover:bg-zinc-700 duration-300"
+                  onClick={() =>
+                    Navigate(`/main/products/${singleProduct.id - 1}`)
+                  }
+                >
                   ← Previous
                 </button>
 
-                <button className="py-4 rounded-2xl bg-lime-400 text-black font-semibold hover:bg-lime-300 duration-300">
+                <button
+                  onClick={() =>
+                    Navigate(`/main/products/${singleProduct.id - 1}`)
+                  }
+                  className="py-4 rounded-2xl bg-lime-400 text-black font-semibold hover:bg-lime-300 duration-300"
+                >
                   Next →
                 </button>
               </div>
             </div>
           </div>
 
-          <h2 className="text-4xl font-bold mt-28">Related Products</h2>
+          <h2 className="text-4xl font-bold mt-28 mb-12">Related Products</h2>
+          <div className="grid grid-cols-4 gap-4">
+            {filteredProducts.map((elem) => {
+              if (elem.category === singleProduct.category) {
+                return <ProductCard product={elem} key={elem.id} />;
+              }
+            })}
+          </div>
         </div>
       </section>
     </div>

@@ -7,13 +7,14 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navigate = useNavigate();
-  const { loggedInUsers, setLoggedInUsers ,setIsCartOpen } = useContext(MyStore);
-
-  
+  const { loggedInUsers, setLoggedInUsers, setIsCartOpen, cart, setCart } =
+    useContext(MyStore);
 
   const Logout = () => {
-    setLoggedInUsers({});
     localStorage.removeItem("LoggedInUser");
+
+    setLoggedInUsers({});
+
     navigate("/");
   };
 
@@ -21,10 +22,7 @@ const Navbar = () => {
     <nav className="w-full bg-black border-b border-zinc-900 px-4 sm:px-6 lg:px-10 py-4">
       <div className="flex items-center justify-between">
         {/* Logo */}
-        <NavLink
-          to="/main"
-          className="flex items-center gap-2 sm:gap-3"
-        >
+        <NavLink to="/main" className="flex items-center gap-2 sm:gap-3">
           <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-lime-400 flex items-center justify-center">
             <Zap className="text-black" size={20} />
           </div>
@@ -83,9 +81,20 @@ const Navbar = () => {
             </p>
           </div>
 
-          <button className="h-12 w-12 rounded-2xl border border-zinc-800 bg-zinc-950 flex items-center justify-center text-white hover:border-lime-400 hover:text-lime-400 transition" onClick={()=>setIsCartOpen(true)}>
-            <ShoppingCart size={20} />
-          </button>
+          <div className="relative">
+            <button
+              className="h-12 w-12 rounded-2xl border border-zinc-800 bg-zinc-950 flex items-center justify-center text-white hover:border-lime-400 hover:text-lime-400 transition"
+              onClick={() => setIsCartOpen(true)}
+            >
+              <ShoppingCart size={20} />
+            </button>
+
+            {cart.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-lime-400 text-black text-xs font-bold h-5 w-5 rounded-full flex items-center justify-center">
+                {cart.length}
+              </span>
+            )}
+          </div>
 
           <button
             onClick={Logout}
@@ -97,9 +106,20 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         <div className="md:hidden flex items-center gap-2">
-          <button className="h-10 w-10 rounded-xl border border-zinc-800 bg-zinc-950 flex items-center justify-center text-white" onClick={()=>setIsCartOpen(true)}>
-            <ShoppingCart size={18} />
-          </button>
+          <div className="relative">
+            <button
+              className="h-10 w-10 rounded-xl border border-zinc-800 bg-zinc-950 flex items-center justify-center text-white"
+              onClick={() => setIsCartOpen(true)}
+            >
+              <ShoppingCart size={18} />
+            </button>
+
+            {cart.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-lime-400 text-black text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center">
+                {cart.length}
+              </span>
+            )}
+          </div>
 
           <button
             onClick={() => setMenuOpen(true)}
@@ -152,7 +172,7 @@ const Navbar = () => {
 
               <div>
                 <p className="text-white font-medium">
-                  {loggedInUsers.name || "Guest"}
+                  {loggedInUsers?.name || "Guest"}
                 </p>
                 <p className="text-zinc-500 text-sm">Welcome back</p>
               </div>

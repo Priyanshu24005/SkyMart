@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Package, TrendingUp, Star, Tag } from "lucide-react";
+import { MyStore } from "../Context/AppContext";
 
 const Cards = () => {
+    const { cart } = useContext(MyStore);
+     
+       const total = cart.reduce((sum, item) => sum + item.price * item.quauntity, 0);
   const stats = [
     {
       icon: <Package size={28} />,
-      value: "0",
+      value: cart.length,
       title: "Cart Items",
       subtitle: "In your bag",
       iconBg: "bg-lime-500/10",
@@ -13,7 +17,7 @@ const Cards = () => {
     },
     {
       icon: <TrendingUp size={28} />,
-      value: "$0.00",
+      value: total.toFixed(2),
       title: "Cart Value",
       subtitle: "Ready to checkout",
       iconBg: "bg-blue-500/10",

@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard";
 import { useState } from "react";
 
 const Products = ({ search, handleClear }) => {
-  const { filteredProducts ,addedProduct, setAddedProduct, setCart,setIsCartOpen , addTocart } = useContext(MyStore);
+  const { filteredProducts ,cart, setCart,setIsCartOpen  } = useContext(MyStore);
 
  
 
@@ -17,8 +17,6 @@ const Products = ({ search, handleClear }) => {
             <ProductCard
               key={product.id}
               product={product}
-              addTocart={addTocart}
-              AddedProduct={addedProduct}
             />
           ))}
         </div>

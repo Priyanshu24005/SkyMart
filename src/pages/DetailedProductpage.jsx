@@ -6,8 +6,6 @@ import { MyStore } from "../Context/AppContext";
 const DetailedProductpage = () => {
   const { isCartOpen, setIsCartOpen } = useContext(MyStore);
 
-  console.log(isCartOpen);
-
   return (
     <div className="relative">
       <div

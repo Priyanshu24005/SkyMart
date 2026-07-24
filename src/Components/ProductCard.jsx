@@ -6,9 +6,9 @@ import { MyStore } from "../Context/AppContext";
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
 
-  const { addTocart, addedProduct } = useContext(MyStore);
+  const { addTocart,cart} = useContext(MyStore);
 
-  const isAdded = addedProduct.some((item) => item.id === product.id);
+  const isAdded = cart.some((item) => item.id === product.id);
 
   return (
     <div className="bg-[#111111] rounded-2xl overflow-hidden border border-gray-800 hover:border-lime-400 duration-300">

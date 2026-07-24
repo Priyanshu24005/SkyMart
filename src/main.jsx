@@ -10,6 +10,9 @@ import { ToastContainer } from "react-toastify";
 createRoot(document.getElementById("root")).render(
   <Provider>
     <AppRoutes/>
-    <ToastContainer/>
+     <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+      />
     </Provider>
 );
