@@ -147,7 +147,7 @@ const Login = () => {
                   className="bg-transparent outline-none text-black w-full"
                 />
 
-                <Eye size={18} className="text-zinc-400 cursor-pointer" />
+          
               </div>
 
               {errors.password && (
