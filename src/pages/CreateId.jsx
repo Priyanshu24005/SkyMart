@@ -137,7 +137,7 @@ const CreateId = () => {
                 className="bg-transparent outline-none text-white w-full"
               />
 
-              <Eye size={20} className="text-blue-500" />
+          
             </div>
 
             {/* Password Bar */}
