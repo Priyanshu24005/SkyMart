@@ -13,44 +13,48 @@ const Category = () => {
     { name: "Kitchen Accessories", slug: "kitchen-accessories", icon: "🍽️" },
   ];
 
-
-  
-
   const changePage = (category) => {
-    setSelectedCategory(category)
+    setSelectedCategory(category);
     Navigate("/main/products");
   };
 
   let Navigate = useNavigate();
   return (
-    <section className="px-4 py-4 bg-black mb-10">
-      <div className="flex items-center justify-between">
-        <h2 className="text-4xl font-bold text-white mb-6">Shop by Category</h2>
+    <section className="px-4 sm:px-6 py-6 bg-black mb-10">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white">
+          Shop by Category
+        </h2>
 
         <button
-          className="text-lime-400 font-medium flex items-center gap-2 hover:gap-3 transition-all"
-          onClick={()=>Navigate("/main/products")}
+          className="text-lime-400 font-medium hover:gap-3 transition-all"
+          onClick={() => Navigate("/main/products")}
         >
           View All →
         </button>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
         {categories.map((category) => (
           <div
-            onClick={() => changePage(category.name)}
             key={category.name}
-            className="group bg-white rounded-3xl p-10 flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(200,244,0,0.15)]"
+            onClick={() => changePage(category.name)}
+            className="
+          group bg-white rounded-3xl
+          p-4 sm:p-6 lg:p-8
+          flex flex-col items-center justify-center
+          cursor-pointer transition-all duration-300
+          hover:-translate-y-2
+          hover:shadow-[0_0_30px_rgba(200,244,0,0.15)]
+        "
           >
-            <div className="text-5xl mb-6 group-hover:scale-110 transition-transform">
+            <div className="text-3xl sm:text-4xl lg:text-5xl mb-4">
               {category.icon}
             </div>
 
-            <h3 className="text-2xl font-semibold text-gray-900">
+            <h3 className="text-sm sm:text-lg lg:text-xl font-semibold text-gray-900 text-center break-words">
               {category.name}
             </h3>
-
-            <p className="text-gray-500 mt-2 text-lg">{category.items} items</p>
           </div>
         ))}
       </div>
