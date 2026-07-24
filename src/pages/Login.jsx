@@ -5,12 +5,12 @@ import { Mail, Lock, Eye, ArrowRight, Zap } from "lucide-react";
 import { MyStore } from "../Context/AppContext";
 import { ToastContainer, toast } from "react-toastify";
 
+
 const Login = () => {
   const { loggedInUsers, setLoggedInUsers } = useContext(MyStore);
-  let registeredUser = JSON.parse(localStorage.getItem("registeredUser"));
+  let registeredUser = JSON.parse(localStorage.getItem("registeredUser")) || [];
 
   console.log(loggedInUsers);
-  
 
   const {
     register,
@@ -24,17 +24,20 @@ const Login = () => {
     let user = registeredUser.find(
       (val) => val.email === data.email && val.password === data.password,
     );
-    if(user){
-    navigate("/main")
-    toast.success("logged In Successfully",{
-      theme : "dark"
-    })
-    localStorage.setItem('LoggedInUser',JSON.stringify(user));
-    setLoggedInUsers(user);
-    }else{
-      toast.error("user not found",{
-      theme : "dark"
-    })
+
+    if (user) {
+      localStorage.setItem("LoggedInUser", JSON.stringify(user));
+      setLoggedInUsers(user);
+
+      toast.success("Logged In Successfully", {
+        theme: "dark",
+      });
+
+      navigate("/main");
+    } else {
+      toast.error("User not found. Please create an account first.", {
+        theme: "dark",
+      });
     }
   };
 
